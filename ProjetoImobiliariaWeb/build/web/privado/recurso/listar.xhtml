@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="titulo">Controle de Recursos</ui:define>
+        <ui:define name="conteudo">
+            <h:form id="formListagem">
+                <h:panelGroup rendered="#{!ControleRecurso.editando}">
+                    <p:messages/>
+                    <p:commandButton value="Novo" icon="ui-icon-plus"
+                                     actionListener="#{ControleRecurso.novo()}"
+                                     update="formEdicao formListagem"/>
+                    <p:dataTable value="#{ControleRecurso.dao.listaObjetos}" var="obj" reflow="true">
+                    
+                    
+                    <f:facet name="header">
+                        <p:outputLabel value="Listagem de Recursos" />
+                    </f:facet>
+                    <p:column headerText="Descrição">
+                        <p:outputLabel value="#{obj.descricao}" />
+                    </p:column>
+                    <p:column headerText="Ações">
+                        <div align="center">
+                            <p:commandButton icon="ui-icon-pencil"
+                                             actionListener="#{ControleRecurso.alterar(obj.id)}"
+                                             process="@this"
+                                             update="formEdicao formListagem"/>
+                            <p:commandButton icon="ui-icon-trash"
+                                             actionListener="#{ControleRecurso.remover(obj.id)}"
+                                             process="@this"
+                                             update="@form"/>
+                        </div>
+                    </p:column>
+                 </p:dataTable>
+                </h:panelGroup>
+            </h:form>
+            <ui:include src="formulario.xhtml"/>
+        </ui:define>
+    </ui:composition>
+</html>
